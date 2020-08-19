@@ -6,9 +6,12 @@
 # BWayward, 2020-Aug-15 Created write_file and remove_inventory function, added DocStrings to both
 # BWayward, 2020-Aug-16 Cleaned up write to file and Delete codebase, attempted to create add_inventory function(Failed)
 # BWayward, 2020-Aug-17 Revisited add inventory function. added IO.addCD and DataProcessor.Write2Mem
+# BWayward, 2020-Aug-18 After class, added file check to ensure text file exists.
 #------------------------------------------#
+import os.path
 
 # -- DATA -- #
+
 strChoice = '' # User input
 lstTbl = []  # list of lists to hold data
 dicRow = {}  # list of data row
@@ -96,7 +99,7 @@ class FileProcessor:
         Returns: 
             None.
             """
-        objFile = open(strFileName, 'w+')
+        objFile = open(strFileName, 'a')
         for row in lstTbl:
             strRow = ''
             for items in row.values():
@@ -177,6 +180,10 @@ class IO:
         return strID, strTitle, stArtist
 
 # 1. When program starts, read in the currently saved Inventory
+if os.path.isfile("./" + strFileName) != True:
+    txtFile = open(strFileName,"a")
+    txtFile.close()
+    
 FileProcessor.read_file(strFileName, lstTbl)
 
 # 2. start main loop
